@@ -1,36 +1,53 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+﻿using Prism.Mvvm;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Sudoku.WPF.ViewModels
 {
     public class MainViewModel : BindableBase
     {
 
-        private ObservableCollection<ObservableCollection<MainViewModelCell>> _dataTable;
 
-        public ObservableCollection<ObservableCollection<MainViewModelCell>> DataTable
+        private ObservableCollection<MainViewModelCell> _cells = new ObservableCollection<MainViewModelCell>();
+        public ObservableCollection<MainViewModelCell> Cells
         {
-            get => _dataTable;
-            set => SetProperty(ref _dataTable, value);
+            get => _cells;
+            set => SetProperty(ref _cells, value);
         }
+
+        private MainViewModelCell _selectedCell;
+        public MainViewModelCell SelectedCell
+        {
+            get => _selectedCell;
+            set
+            {
+                if (_selectedCell != null)
+                {
+                    _selectedCell.IsSelected = false;
+                }
+                if (SetProperty(ref _selectedCell, value))
+                {
+                    if (value != null)
+                    {
+                        value.IsSelected = true;
+                    }
+                }
+            }
+        }
+
 
         public MainViewModel()
         {
-            DataTable = new ObservableCollection<ObservableCollection<MainViewModelCell>>();
-
-            for (int i = 0; i < 9; ++i)
+            for (int row = 0; row < 9; ++row)
             {
-                var row = new ObservableCollection<MainViewModelCell>();
-                for (int j = 0; j < 9; ++j)
+                for (int col = 0; col < 9; ++col)
                 {
-                    var number = j + 1;
-                    row.Add(new MainViewModelCell(number));
+                    var left = col == 0;
+                    var top = row == 0;
+                    var right = (col + 1) % 3 == 0;
+                    var bottom = (row + 1) % 3 == 0;
+                    int number = 0;
+                    Cells.Add(new MainViewModelCell(number, row, col, left, top, right, bottom));
                 }
-                DataTable.Add(row);
             }
         }
     }
