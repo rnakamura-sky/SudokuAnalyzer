@@ -2,15 +2,30 @@
 
 namespace Sudoku.Domain.ValueObjects
 {
+    /// <summary>
+    /// Cell決定値クラス
+    /// </summary>
     public class CellValue : ValueObject<CellValue>
     {
-        public static readonly CellValue Empty = new CellValue(0);
+        /// <summary>
+        /// 未決定値
+        /// </summary>
+        public static readonly CellValue Empty = new CellValue(EmptyValue);
 
         private static readonly int MaxValue = 9;
         private static readonly int MinValue = 1;
         private static readonly int EmptyValue = 0;
 
+        /// <summary>
+        /// 値
+        /// </summary>
         public int Value { get; }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="InvalidValueException"></exception>
 
         public CellValue(int value)
         {
@@ -24,14 +39,14 @@ namespace Sudoku.Domain.ValueObjects
             }
             Value = value;
         }
+
+        /// <summary>
+        /// 決定値かどうか
+        /// </summary>
+        /// <returns></returns>
         public bool IsDecided()
         {
             return this != Empty;
-        }
-
-        public int GetIndex()
-        {
-            return Value - 1;
         }
 
         protected override bool EqualsCore(CellValue other)
@@ -43,6 +58,11 @@ namespace Sudoku.Domain.ValueObjects
         {
             return Value.GetHashCode();
         }
+
+        /// <summary>
+        /// 指定できる決定値リスト
+        /// </summary>
+        /// <returns></returns>
 
         public static IReadOnlyList<CellValue> ToList()
         {

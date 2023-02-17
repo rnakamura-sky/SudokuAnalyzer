@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.WPF", "Sudoku.WPF\Sudoku.WPF.csproj", "{03FC10CF-87AF-4F2C-8C7B-309C64447EB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.WPF", "Sudoku.WPF\Sudoku.WPF.csproj", "{03FC10CF-87AF-4F2C-8C7B-309C64447EB2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0DBC44BF-2CA1-43BC-934C-E85123CA72AB} = {0DBC44BF-2CA1-43BC-934C-E85123CA72AB}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Domain", "Sudoku.Domain\Sudoku.Domain.csproj", "{441A47B3-98B0-4EBC-9372-C66083347196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Domain", "Sudoku.Domain\Sudoku.Domain.csproj", "{441A47B3-98B0-4EBC-9372-C66083347196}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuTest.Tests", "SudokuTest.Tests\SudokuTest.Tests.csproj", "{C1E6FB17-F267-411A-A46E-8B4C028FF352}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuTest.Tests", "SudokuTest.Tests\SudokuTest.Tests.csproj", "{C1E6FB17-F267-411A-A46E-8B4C028FF352}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Infrastructure", "Sudoku.Infrastructure\Sudoku.Infrastructure.csproj", "{0DBC44BF-2CA1-43BC-934C-E85123CA72AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +32,10 @@ Global
 		{C1E6FB17-F267-411A-A46E-8B4C028FF352}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1E6FB17-F267-411A-A46E-8B4C028FF352}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1E6FB17-F267-411A-A46E-8B4C028FF352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DBC44BF-2CA1-43BC-934C-E85123CA72AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DBC44BF-2CA1-43BC-934C-E85123CA72AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DBC44BF-2CA1-43BC-934C-E85123CA72AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DBC44BF-2CA1-43BC-934C-E85123CA72AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

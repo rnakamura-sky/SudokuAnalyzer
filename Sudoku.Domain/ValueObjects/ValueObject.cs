@@ -1,12 +1,17 @@
 ﻿namespace Sudoku.Domain.ValueObjects
 {
+    /// <summary>
+    /// ValueObjectクラス
+    /// クラスをプリミティブ型と同様に扱うためのクラス
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class ValueObject<T> where T : ValueObject<T>
     {
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var vo = obj as T;
-            if (vo == null)
+            if (vo is null)
             {
                 return false;
             }

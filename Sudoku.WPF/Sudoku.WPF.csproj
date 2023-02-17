@@ -9,5 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Domain\Sudoku.Domain.csproj" />
+    <ProjectReference Include="..\Sudoku.Infrastructure\Sudoku.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

@@ -14,6 +14,24 @@
         </DataTemplate>
         <DataTemplate x:Key="CandidateTemplate">
             <Grid Margin="0">
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Label Content="{TemplateBinding Button.Content}" Opacity="{TemplateBinding Opacity}"
+                                           Padding="0" Margin="0"
+                                           VerticalContentAlignment="Center"
+                                           HorizontalContentAlignment="Center"/>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -24,33 +42,55 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                        IsEnabled="{Binding IsSelected}" Command="{Binding ActionCommand}" CommandParameter="1">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Label Content="1" Opacity="{Binding Candidates[0],Converter={StaticResource BoolToOpacityConverter}}"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+
+                <Button Grid.Row="0" Grid.Column="0"
+                        Content="1"
+                        Opacity="{Binding Candidates[0],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="1"/>
+                <Button Grid.Row="0" Grid.Column="1"
+                        Content="2"
+                        Opacity="{Binding Candidates[1],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="2"/>
+                <Button Grid.Row="0" Grid.Column="2"
+                        Content="3"
+                        Opacity="{Binding Candidates[2],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="3"/>
+                <Button Grid.Row="1" Grid.Column="0"
+                        Content="4"
+                        Opacity="{Binding Candidates[3],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="4"/>
+                <Button Grid.Row="1" Grid.Column="1"
+                        Content="5"
+                        Opacity="{Binding Candidates[4],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="5"/>
+                <Button Grid.Row="1" Grid.Column="2"
+                        Content="6"
+                        Opacity="{Binding Candidates[5],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="6"/>
+                <Button Grid.Row="2" Grid.Column="0"
+                        Content="7"
+                        Opacity="{Binding Candidates[6],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="7"/>
+                <Button Grid.Row="2" Grid.Column="1"
+                        Content="8"
+                        Opacity="{Binding Candidates[7],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="8"/>
+                <Button Grid.Row="2" Grid.Column="2"
+                        Content="9"
+                        Opacity="{Binding Candidates[8],Converter={StaticResource BoolToOpacityConverter}}"
+                        IsEnabled="{Binding IsSelected}"
+                        Command="{Binding ActionCommand}" CommandParameter="9"/>
 
                 <!--<Label Grid.Row="0" Grid.Column="0" Content="1" Opacity="{Binding Candidates[0],Converter={StaticResource BoolToOpacityConverter}}"
                        Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>-->
-                <Label Grid.Row="0" Grid.Column="1" Content="2" Opacity="{Binding Candidates[1],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="0" Grid.Column="2" Content="3" Opacity="{Binding Candidates[2],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="1" Grid.Column="0" Content="4" Opacity="{Binding Candidates[3],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="1" Grid.Column="1" Content="5" Opacity="{Binding Candidates[4],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="1" Grid.Column="2" Content="6" Opacity="{Binding Candidates[5],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="2" Grid.Column="0" Content="7" Opacity="{Binding Candidates[6],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="2" Grid.Column="1" Content="8" Opacity="{Binding Candidates[7],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="2" Grid.Column="2" Content="9" Opacity="{Binding Candidates[8],Converter={StaticResource BoolToOpacityConverter}}"
-                       Margin="0" Padding="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
         </DataTemplate>
         <selectors:CellTemplateSelector x:Key="CellTemplateSelector"
@@ -59,7 +99,6 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <Label Content="Hello World"/>
             <ListBox ItemsSource="{Binding Cells}"
                      ItemTemplateSelector="{StaticResource CellTemplateSelector}"
                      SelectedItem="{Binding SelectedCell}">
@@ -181,6 +220,12 @@
                                 <Setter Property="BorderBrush" Value="Black"/>
                                 <Setter Property="BorderThickness" Value="0, 0, 1, 1"/>
                             </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding IsConfirm}" Value="True">
+                                <Setter Property="Background" Value="LightSkyBlue"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsFixed}" Value="True">
+                                <Setter Property="Background" Value="AliceBlue"/>
+                            </DataTrigger>
 
 
                         </Style.Triggers>
@@ -189,7 +234,17 @@
             </ListBox>
 
 
-            <Button Content="決定"/>
+            <Button Content="Reset"
+                    Command="{Binding ResetCommand}"/>
+            <Button Content="Reconcil"
+                    Command="{Binding ReconcilCommand}"/>
+            <Button Content="ReconcilPair"
+                    Command="{Binding ReconcilPairCommand}"/>
+            <Button Content="DecideCells"
+                    Command="{Binding DecideCellsCommand}"/>
+            <Button Content="DecideCellInGroups"
+                    Command="{Binding DecideCellInGroupsCommand}"/>
+            
         </StackPanel>
     </Grid>
 </UserControl>

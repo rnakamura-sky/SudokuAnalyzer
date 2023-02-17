@@ -23,41 +23,55 @@ namespace SudokuTest.Tests
 
             var cellCollection = new CellCollection(cells);
 
-            Assert.AreEqual(81, cellCollection.Cells.Count());
+            Assert.AreEqual(81, cellCollection.Count());
 
-            Assert.AreEqual(6, cellCollection.Cells[0].Value.Value);
-            Assert.AreEqual(0, cellCollection.Cells[0].RowIndex);
-            Assert.AreEqual(0, cellCollection.Cells[0].ColumnIndex);
-            Assert.AreEqual(true, cellCollection.Cells[0].IsFixed);
-            Assert.AreEqual(true, cellCollection.Cells[0].IsDecided);
-            var candidates = cellCollection.Cells[0].CandidateCollection;
+            var cellEntity = cellCollection.GetCellEntity(0);
+            Assert.AreEqual(6, cellEntity.Value.Value);
+            Assert.AreEqual(0, cellEntity.RowIndex);
+            Assert.AreEqual(0, cellEntity.ColumnIndex);
+            Assert.AreEqual(true, cellEntity.IsFixed);
+            Assert.AreEqual(true, cellEntity.IsDecided);
+            var candidates = cellEntity.CandidateCollection;
             foreach (var candidate in candidates.Candidates)
             {
                 Assert.AreEqual(false, candidate);
             }
 
-            Assert.AreEqual(0, cellCollection.Cells[11].Value.Value);
-            Assert.AreEqual(1, cellCollection.Cells[11].RowIndex);
-            Assert.AreEqual(2, cellCollection.Cells[11].ColumnIndex);
-            Assert.AreEqual(false, cellCollection.Cells[11].IsFixed);
-            Assert.AreEqual(false, cellCollection.Cells[11].IsDecided);
-            candidates = cellCollection.Cells[11].CandidateCollection;
+            cellEntity = cellCollection.GetCellEntity(11);
+            Assert.AreEqual(0, cellEntity.Value.Value);
+            Assert.AreEqual(1, cellEntity.RowIndex);
+            Assert.AreEqual(2, cellEntity.ColumnIndex);
+            Assert.AreEqual(false, cellEntity.IsFixed);
+            Assert.AreEqual(false, cellEntity.IsDecided);
+            candidates = cellEntity.CandidateCollection;
             foreach (var candidate in candidates.Candidates)
             {
                 Assert.AreEqual(true, candidate);
             }
 
-            Assert.AreEqual(0, cellCollection.Cells[80].Value.Value);
-            Assert.AreEqual(8, cellCollection.Cells[80].RowIndex);
-            Assert.AreEqual(8, cellCollection.Cells[80].ColumnIndex);
-            Assert.AreEqual(false, cellCollection.Cells[80].IsFixed);
-            Assert.AreEqual(false, cellCollection.Cells[80].IsDecided);
+            cellEntity = cellCollection.GetCellEntity(80);
+            Assert.AreEqual(0, cellEntity.Value.Value);
+            Assert.AreEqual(8, cellEntity.RowIndex);
+            Assert.AreEqual(8, cellEntity.ColumnIndex);
+            Assert.AreEqual(false, cellEntity.IsFixed);
+            Assert.AreEqual(false, cellEntity.IsDecided);
 
             var logic = new SolutionLogic(cellCollection);
 
             logic.Reconcil();
-            logic.DecideCells();
-            logic.DecideCellInGroups();
+
+            for (int i = 0; i < 50; ++i)
+            {
+                logic.DecideCells();
+                logic.DecideCellInGroups();
+                logic.ReconcilPair();
+
+                if (logic.IsClear())
+                {
+                    break;
+                }
+            }
+            Assert.AreEqual(true, logic.IsClear());
         }
     }
 }
