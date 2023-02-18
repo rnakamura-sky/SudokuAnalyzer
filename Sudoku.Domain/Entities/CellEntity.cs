@@ -259,5 +259,31 @@ namespace Sudoku.Domain.Entities
             Value = cellValue;
             CandidateCollection.Off();
         }
+
+        /// <summary>
+        /// 所属しているGroupIdを返す
+        /// TODO: GroupIdをフィールドに持っていないので、他のクラスに持たせたい
+        /// </summary>
+        /// <param name="groupType"></param>
+        /// <returns></returns>
+        public GroupId GetGroupId(GroupType groupType)
+        {
+            if (groupType == GroupType.Square)
+            {
+                var rowId = RowIndex / 3;
+                var columnId = ColumnIndex / 3;
+                var groupId = rowId * 3 + columnId;
+                return new GroupId(groupId);
+            }
+            if (groupType == GroupType.Row)
+            {
+                return new GroupId(RowIndex);
+            }
+            if (groupType == GroupType.Column)
+            {
+                return new GroupId(ColumnIndex);
+            }
+            return GroupId.Empty;
+        }
     }
 }

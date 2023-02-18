@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Sudoku.Domain.ValueObjects;
+using System.Text.RegularExpressions;
 
 namespace Sudoku.Domain.Entities
 {
@@ -11,13 +12,13 @@ namespace Sudoku.Domain.Entities
         /// グループリスト
         /// </summary>
 
-        private IReadOnlyCollection<Group> _groups { get; }
+        private IReadOnlyList<Group> _groups { get; }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="groups"></param>
-        public GroupCollection(IReadOnlyCollection<Group> groups)
+        public GroupCollection(IReadOnlyList<Group> groups)
         {
             _groups = groups;
         }
@@ -79,5 +80,17 @@ namespace Sudoku.Domain.Entities
                 group.ReconcilPair();
             }
         }
+
+        /// <summary>
+        /// グループリストを取得する
+        /// TODO: この関数は責務を他のクラスに押し付ける可能性があるため、使わないように拐取する必要あり
+        /// </summary>
+        /// <returns></returns>
+        [Obsolete]
+        public IReadOnlyList<Group> GetGroups()
+        {
+            return _groups;
+        }
+ 
     }
 }

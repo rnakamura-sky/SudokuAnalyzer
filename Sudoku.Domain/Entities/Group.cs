@@ -16,7 +16,7 @@ namespace Sudoku.Domain.Entities
         /// <summary>
         /// グループId
         /// </summary>
-        public int GroupId { get; }
+        public GroupId GroupId { get; }
 
         /// <summary>
         /// Cellリスト
@@ -33,7 +33,7 @@ namespace Sudoku.Domain.Entities
         public Group(GroupType groupType, int groupId, IReadOnlyList<CellEntity> cellEntities)
         {
             GroupType = groupType;
-            GroupId = groupId;
+            GroupId = new GroupId(groupId);
             CellEntities = cellEntities;
         }
 
@@ -90,6 +90,31 @@ namespace Sudoku.Domain.Entities
                     continue;
                 }
                 cellEntity.ExcludeCandidates(cellPair[0]);
+            }
+        }
+
+        /// <summary>
+        /// 消込処理
+        /// 指定された値を候補値から除く
+        /// 指定されたGroupのGroupIdに所属するCellは対象外とする
+        /// </summary>
+        /// <param name="cellValue"></param>
+        /// <param name="excludeGroupType"></param>
+        /// <param name="excludeGroupId"></param>
+        public void Reconcil(CellValue cellValue, GroupType excludeGroupType, GroupId excludeGroupId)
+        {
+            foreach (var cell in CellEntities)
+            {
+                //TODO: もう決定してないCell一覧を取得するメソッドがあっていいと思う
+                if (cell.IsDecided)
+                {
+                    continue;
+                }
+                if (cell.GetGroupId(excludeGroupType) == excludeGroupId)
+                {
+                    continue;
+                }
+                cell.Reconcil(cellValue);
             }
         }
 
@@ -229,6 +254,37 @@ namespace Sudoku.Domain.Entities
             var cellCount = CellEntities.Count;
             return cellCount == CellEntities.Where(x => x.IsDecided).Select(x => x.Value).Distinct().Count();
 
+        }
+
+        /// <summary>
+        /// 指定された値が指定されたグループに対して一意に決まるか確認
+        /// </summary>
+        /// <param name="groupType"></param>
+        /// <param name="cellValue"></param>
+        /// <returns></returns>
+        public GroupId IsUniqueGroup(GroupType groupType, CellValue cellValue)
+        {
+            // TODO: GroupIdはValueObject化して良いと思う
+            var groupId = GroupId.Empty;
+            foreach (var cell in CellEntities)
+            {
+                if (cell.IsDecided)
+                {
+                    continue;
+                }
+                if (cell.Contains(cellValue))
+                {
+                    if (groupId.IsEmpty())
+                    {
+                        groupId = cell.GetGroupId(groupType);
+                    }
+                    else if (groupId != cell.GetGroupId(groupType))
+                    {
+                        return GroupId.Empty;
+                    }
+                }
+            }
+            return groupId;
         }
     }
 }

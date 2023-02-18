@@ -16,7 +16,9 @@ namespace Sudoku.WPF
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register(typeof(MainView));
+            containerRegistry.Register<MainView>();
+
+            containerRegistry.RegisterDialog<InputQuestionView>();
         }
     }
 }

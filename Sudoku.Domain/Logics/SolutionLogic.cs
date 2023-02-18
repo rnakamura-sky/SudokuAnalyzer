@@ -1,4 +1,5 @@
 ﻿using Sudoku.Domain.Entities;
+using Sudoku.Domain.ValueObjects;
 
 namespace Sudoku.Domain.Logics
 {
@@ -120,6 +121,47 @@ namespace Sudoku.Domain.Logics
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// グループが一致するものを消し込む
+        /// </summary>
+        public void ReconcilGroup()
+        {
+            ReconcilGroup(GroupType.Square, GroupType.Row);
+            ReconcilGroup(GroupType.Square, GroupType.Column);
+            ReconcilGroup(GroupType.Row, GroupType.Square);
+            ReconcilGroup(GroupType.Column, GroupType.Square);
+        }
+
+        /// <summary>
+        /// グループが一致するものを消し込む
+        /// </summary>
+        /// <param name="groupType1"></param>
+        /// <param name="groupType2"></param>
+        public void ReconcilGroup(GroupType groupType1, GroupType groupType2)
+        {
+            var groupCollection1 = GroupFactory.GetGroupCollection(groupType1, _cellCollection);
+            foreach (var group in groupCollection1.GetGroups())
+            {
+                foreach (var cellValue in CellValue.ToList())
+                {
+                    if (group.HasDecidedCell(cellValue))
+                    {
+                        continue;
+                    }
+
+                    var groupId2 = group.IsUniqueGroup(groupType2, cellValue);
+                    if (groupId2.IsEmpty())
+                    {
+                        continue;
+                    }
+
+                    //TODO: ちょっと直したい
+                    var group2 = GroupFactory.GetGroup(groupType2, groupId2.Value, _cellCollection);
+                    group2.Reconcil(cellValue, group.GroupType, group.GroupId);
+                }
+            }
         }
     }
 }

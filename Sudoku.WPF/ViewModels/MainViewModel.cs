@@ -1,16 +1,21 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using Sudoku.Domain.Entities;
 using Sudoku.Domain.Logics;
 using Sudoku.Infrastructure.Fake;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Sudoku.WPF.ViewModels
 {
     public class MainViewModel : BindableBase
     {
+
+        private IDialogService _dialogService;
 
         /// <summary>
         /// Cellリスト
@@ -69,6 +74,11 @@ namespace Sudoku.WPF.ViewModels
         public DelegateCommand ReconcilPairCommand { get; }
 
         /// <summary>
+        /// グループ消込コマンド
+        /// </summary>
+        public DelegateCommand ReconcilGroupCommand { get; }
+
+        /// <summary>
         /// 候補値決定コマンド
         /// </summary>
         public DelegateCommand DecideCellsCommand { get; }
@@ -79,10 +89,17 @@ namespace Sudoku.WPF.ViewModels
         public DelegateCommand DecideCellInGroupsCommand { get; }
 
         /// <summary>
+        /// 入力ダイアログ表示コマンド
+        /// </summary>
+        public DelegateCommand ShowInputDialogCommand { get; }
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
-        public MainViewModel()
+        public MainViewModel(IDialogService dialogService)
         {
+            _dialogService = dialogService;
+
             var _cellCollectionRepository = new CellCollectionFake();
             var cellCollection = _cellCollectionRepository.GetCellCollection();
 
@@ -91,8 +108,10 @@ namespace Sudoku.WPF.ViewModels
             ResetCommand = new DelegateCommand(ExecuteResetCommand);
             ReconcilCommand = new DelegateCommand(ExecuteReconcilCommand);
             ReconcilPairCommand = new DelegateCommand(ExecuteReconcilPairCommand);
+            ReconcilGroupCommand = new DelegateCommand(ExecuteReconcilGroupCommand);
             DecideCellsCommand = new DelegateCommand(ExecuteDecideCellsCommand);
             DecideCellInGroupsCommand = new DelegateCommand(ExecuteDecideCellInGroupsCommand);
+            ShowInputDialogCommand = new DelegateCommand(ShowInputDialog);
         }
 
         /// <summary>
@@ -149,6 +168,20 @@ namespace Sudoku.WPF.ViewModels
         }
 
         /// <summary>
+        /// グループ消込コマンド実行
+        /// </summary>
+        private void ExecuteReconcilGroupCommand()
+        {
+            var cellCollection = GetCellCollection();
+            var logic = new SolutionLogic(cellCollection);
+
+            logic.ReconcilGroup();
+
+            SetCells(cellCollection);
+            Debug.WriteLine("ReconcilGroupを実行しました");
+        }
+
+        /// <summary>
         /// 候補値決定コマンド実行
         /// </summary>
         private void ExecuteDecideCellsCommand()
@@ -187,6 +220,25 @@ namespace Sudoku.WPF.ViewModels
             {
                 Cells.Add(new MainViewModelCell(cell));
             }
+        }
+
+        /// <summary>
+        /// 入力用ダイアログ表示
+        /// </summary>
+        private void ShowInputDialog()
+        {
+            _dialogService.ShowDialog(nameof(Views.InputQuestionView), result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    var dataText = result.Parameters.GetValue<string>(nameof(InputQuestionViewModel.QuestionText));
+                    dataText = dataText.Trim().Replace("\r\n", "");
+                    var dataList = dataText.ToCharArray();
+                    var numberList = dataList.ToList().Select(x => (int)char.GetNumericValue(x));
+                    var cellCollection = new CellCollection(numberList);
+                    SetCells(cellCollection);
+                }
+            });
         }
     }
 }
