@@ -12,7 +12,8 @@
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
                    HorizontalContentAlignment="Center"
-                   VerticalContentAlignment="Center"/>
+                   VerticalContentAlignment="Center"
+                   FontSize="16"/>
         </DataTemplate>
         <DataTemplate x:Key="CandidateTemplate">
             <Grid Margin="0">
@@ -228,6 +229,7 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsFixed}" Value="True">
                                 <Setter Property="Background" Value="AliceBlue"/>
+                                <Setter Property="FontWeight" Value="UltraBold"/>
                             </DataTrigger>
 
 
